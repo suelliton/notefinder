@@ -113,6 +113,7 @@ new Vue({
     passou_mouse(image) {
       this.estilo_background = "filter:blur(2px) brightness(70%);";
       this.estilos[image] = "opacity: 1; filter: brightness(130%);";
+      //kasdjfdasdkj
       /*      
             document.querySelector(".image-background").style.filter = "blur(8px)";
             document.querySelector(".image-background").style.filter = "brightness(80%)";

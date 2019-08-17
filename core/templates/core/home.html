@@ -26,7 +26,7 @@
       <div class="container-fluid" id="containerTop">
         <form action="" v-on:submit.prevent="pesquisar_livre()">
           <div class="row">
-            <div class="col-sm-4" id="titleSite">
+            <div class="col-sm-4" id="title-site">
               <img
                 src="{% static 'img/icon_lupa.png' %}"
                 alt="Lupa"
@@ -192,8 +192,11 @@
                     alt=""
                   />
                 </div>
+                <!---->
                 <div id="resultados">
-                  <h6>Resultados encontrados: [[ notebooks.length ]]</h6>
+                  <h6 v-show="notebooks.length > 0">
+                    [[ notebooks.length ]] Resultados
+                  </h6>
                 </div>
               </div>
 

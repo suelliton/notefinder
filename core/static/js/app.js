@@ -115,6 +115,15 @@ new Vue({
           this.notebooks = res.data;
           this.$refs.container_notebooks.click();
         });
+      //limpa campos de select paraa nova pesquisa por parametro
+      for (var key in this.selects) {
+        if (key === "price" || key === "storage" || key === "cpu") {
+          this.selects[key] = "Nenhum";
+        } else {
+          this.selects[key] = "Nenhuma";
+        }
+      }
+      this.filtros = [];
     },
     passou_mouse(image) {
       this.estilo_background = "filter:blur(2px) brightness(70%);";

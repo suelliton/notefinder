@@ -1,3 +1,11 @@
+var urlBase = window.location.host;
+console.log(urlBase);
+if (urlBase === "127.0.0.1:8000") {
+  urlBase = "http://" + urlBase;
+} else {
+  urlBase = "https://" + urlBase;
+}
+
 Vue.component("notebook", {
   delimiters: ["[[", "]]"],
   template: "#notebook",
@@ -93,7 +101,7 @@ new Vue({
           }
         }
         console.log("query_params:", query_params);
-        axios.get("http://127.0.0.1:8000/search?" + query_params).then(res => {
+        axios.get(urlBase + "/search?" + query_params).then(res => {
           console.log(res.data);
           this.notebooks = res.data;
         });
@@ -101,9 +109,7 @@ new Vue({
     },
     pesquisar_livre() {
       axios
-        .get(
-          "http://127.0.0.1:8000/freesearch?" + "query=" + this.pesquisa_livre
-        )
+        .get(urlBase + "/freesearch?" + "query=" + this.pesquisa_livre)
         .then(res => {
           console.log(res.data);
           this.notebooks = res.data;

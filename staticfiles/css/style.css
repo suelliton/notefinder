@@ -1,0 +1,159 @@
+{% load static %}
+html{
+   scroll-behavior: smooth;
+}
+body {
+  background-color: #9c88ff;
+  /*background-image: url("/static/img/macro.jpg");*/
+  transition: opacity 5s;
+}
+.note {
+  color: rgb(255, 20, 20);
+  font-size: 30px;
+  font-weight: bolder;
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+.finder {
+  font-size: 30px;
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+.col-notebook{
+  padding-top: 1%;
+  padding-bottom: 1%;
+  
+}
+.card-text{
+  font-size: 12px;
+}
+.card{
+  padding: 5px;
+   background-color: #8c7ae6;
+   box-shadow: 5px 5px 5px rgba(0,0,0,0.5);
+}
+.card-body{
+  height: 50px;
+  padding-right: 5px;
+  padding-top: 0px;
+  padding-bottom: 0px;  
+ 
+}
+.img-notebook{
+  padding: 10px;
+}
+#my-footer{ 
+  background-color:#2d3436;
+  color: #ecf0f1;
+}
+a:hover {
+  text-decoration: none;
+}
+#pesquisaLivre {
+  padding-top: 2%;
+ 
+}
+#titleSite {
+  padding-left: 10%;
+  margin-top: -0.5%;
+  margin-bottom: 0.5%;
+}
+#containerTop {
+  background-color: #ecf0f1;
+  padding-top: 1%;
+  
+}
+#section1{
+     background-image: url("/static/img/macro.jpg");    
+}
+#containerForm {
+  padding-top: 3%;  
+}
+#resultados{
+   height: 60px;
+   color: #ecf0f1;
+}
+
+#containerBackground {
+  position: relative;
+  width: 100%; /* for IE 6 */
+}
+#ul_filtros {
+  padding: 0px;
+  margin-top: -5%;
+}
+#ul_filtros li {
+  list-style: none;
+  display: inline;
+  background-color: blueviolet;
+  margin-right: 2%;
+  padding-right: 1.5%;
+  padding-left: 1.5%;
+  padding-top: 0.5%;
+  padding-bottom: 0.5%;
+  color: white;
+}
+#imageCenter {
+  width: 100%;
+  /*filter: blur(8px);*/
+  transition: filter 1s;
+}
+#image1 {
+  /* processador*/
+  position: absolute;
+  top: 75%;
+  left: 15%;
+  width: 15%;
+  opacity: 0; /* transparencia*/
+  transition: opacity 1s;
+}
+#image2 {
+  /* memoria*/
+  position: absolute;
+  top: 55%;
+  left: 20%;
+  width: 15%;
+  opacity: 0; /* transparencia*/
+  transition: opacity 1s;
+}
+#image3 {
+  /* tela*/
+  position: absolute;
+  top: 0%;
+  left: 2.5%;
+  width: 95%;
+  opacity: 0; /* transparencia*/
+  transition: opacity 1s;
+}
+#image4 {
+  /* marca*/
+  position: absolute;
+  top: 15%;
+  left: 32%;
+  width: 35%;
+  opacity: 0; /* transparencia*/
+  transition: opacity 1s;
+}
+#image5 {
+  /* disco*/
+  position: absolute;
+  top: 75%;
+  left: 70%;
+  width: 13%;
+  opacity: 0; /* transparencia*/
+  transition: opacity 1s;
+}
+#image6 {
+  /* preco*/
+  position: absolute;
+  top: 50%;
+  left: 45%;
+  width: 14%;
+  opacity: 0; /* transparencia*/
+  transition: opacity 1s;
+}
+
+.blocoSelect {
+  height: 30%;
+  padding-left: 15%;
+  padding-right: 10%;
+  padding-top: 15%;
+}

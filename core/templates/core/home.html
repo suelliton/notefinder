@@ -1,0 +1,329 @@
+{% load staticfiles %} {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+
+    <script src="https://kit.fontawesome.com/bcbd23c1e5.js"></script>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <title>NoteFinder</title>
+  </head>
+
+  <body>
+    <div id="app">
+      <!--Responsável por englobar o app do vue-->
+      <!--TITULO-->
+      <div class="container-fluid" id="containerTop">
+        <form action="" v-on:submit.prevent="pesquisar_livre()">
+          <div class="row">
+            <div class="col-sm-4" id="titleSite">
+              <img
+                src="{% static 'img/icon_lupa.png' %}"
+                alt="Lupa"
+                width="40"
+              />
+              <a href="{% url 'home' %}">
+                <span class="note">Note</span>
+                <span class="finder">Finder</span>
+              </a>
+            </div>
+            <div class="col-sm-3">
+              <input
+                v-model="pesquisa_livre"
+                class="form-control form-control-sm"
+                type="text"
+                placeholder="Pesquisa livre"
+              />
+            </div>
+            <div class="col-sm-1 ">
+              <button
+                @click="pesquisar_livre()"
+                class="btn btn-sm btn-primary container-fluid"
+                type="submit"
+                value="Pesquisar"
+              >
+                <i class="fas fa-search"></i
+                ><span class="glyphicon glyphicon-search"></span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!--FORM-->
+      <div id="section1">
+        <div class="container" id="containerForm">
+          <form action="" method="GET">
+            <!-- {% csrf_token %}   -->
+            <div class="row">
+              <!--Linha-->
+              <!--primeira coluna-->
+              <div class="col-sm-3">
+                <div class="blocoSelect ">
+                  <div
+                    class="input-group input-group-sm"
+                    v-on:mouseover="passou_mouse('image3')"
+                    v-on:mouseout="retirou_mouse('image3')"
+                  >
+                    <div class="input-group-prepend">
+                      <label
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="Monitor onde são exibidas as tarefas que estão sendo executadas."
+                        class="input-group-text "
+                        >Tela</label
+                      >
+                    </div>
+                    <select
+                      @change="pesquisar(selects.screen)"
+                      v-model="selects.screen"
+                      class="form-control form-control-sm custom-select"
+                    >
+                      <option v-for="tela in telas">[[ tela ]] </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="blocoSelect">
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <label
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="Responsável pelo armazenamento temporário de informações no notebook, quanto mais melhor."
+                        class="input-group-text "
+                        >RAM</label
+                      >
+                    </div>
+                    <select
+                      @change="pesquisar(selects.ram)"
+                      v-model="selects.ram"
+                      v-on:mouseover="passou_mouse('image2')"
+                      v-on:mouseout="retirou_mouse('image2')"
+                      class="form-control form-control-sm"
+                    >
+                      <option v-for="memoria in memorias"
+                        >[[ memoria ]]
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="blocoSelect">
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <label
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="Responsável pelo processamento das tarefas do notebook."
+                        class="input-group-text "
+                        >CPU</label
+                      >
+                    </div>
+                    <select
+                      @change="pesquisar(selects.cpu)"
+                      v-model="selects.cpu"
+                      v-on:mouseover="passou_mouse('image1')"
+                      v-on:mouseout="retirou_mouse('image1')"
+                      class="form-control form-control-sm"
+                    >
+                      <option v-for="processador in processadores"
+                        >[[ processador ]]
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <!--segunda coluna-->
+              <div class="col-sm-6">
+                <div class="container-fluid">
+                  <ul id="ul_filtros">
+                    <li v-for="filtro in filtros">[[ filtro ]]</li>
+                  </ul>
+                </div>
+                <div class="container" id="containerBackground">
+                  <img
+                    :style="estilo_background"
+                    id="imageCenter"
+                    src="{% static 'img/notebook.png' %}"
+                    alt=""
+                  />
+                  <img
+                    :style="estilos.image1"
+                    id="image1"
+                    src="{% static  'img/processador.png' %}"
+                    alt=""
+                  />
+                  <img
+                    :style="estilos.image2"
+                    id="image2"
+                    src="{% static  'img/memoria.png' %}"
+                    alt=""
+                  />
+                  <img
+                    :style="estilos.image3"
+                    id="image3"
+                    src="{% static  'img/tela.png' %}"
+                    alt=""
+                  />
+                  <img
+                    :style="estilos.image4"
+                    id="image4"
+                    src="{% static  'img/marca.png' %}"
+                    alt=""
+                  />
+                  <img
+                    :style="estilos.image5"
+                    id="image5"
+                    src="{% static  'img/ssd.png' %}"
+                    alt=""
+                  />
+                  <img
+                    :style="estilos.image6"
+                    id="image6"
+                    src="{% static  'img/preco.png' %}"
+                    alt=""
+                  />
+                </div>
+                <div id="resultados">
+                  <h6>Resultados encontrados: [[ notebooks.length ]]</h6>
+                </div>
+              </div>
+
+              <!--terceira coluna-->
+              <div class="col-sm-3">
+                <div class="blocoSelect">
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <label
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="Fabricante do notebook."
+                        class="input-group-text "
+                        >Marca</label
+                      >
+                    </div>
+                    <select
+                      @change="pesquisar(selects.brand)"
+                      v-model="selects.brand"
+                      v-on:mouseover="passou_mouse('image4')"
+                      v-on:mouseout="retirou_mouse('image4')"
+                      class="form-control form-control-sm"
+                    >
+                      <option v-for="marca in marcas">[[ marca ]] </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="blocoSelect">
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <label
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="Faixa de preços sugeridas pelos fabricantes e e-commerces."
+                        class="input-group-text "
+                        >Preço</label
+                      >
+                    </div>
+                    <select
+                      @change="pesquisar(selects.price)"
+                      v-model="selects.price"
+                      v-on:mouseover="passou_mouse('image6')"
+                      v-on:mouseout="retirou_mouse('image6')"
+                      class="form-control form-control-sm"
+                    >
+                      <option v-for="preco in precos">[[ preco ]] </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="blocoSelect">
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <label
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="Responsável pelo armazenamento definitivo do sistema operacional, músicas, vídeos e arquivos em geral"
+                        class="input-group-text "
+                        >Disco</label
+                      >
+                    </div>
+                    <select
+                      @change="pesquisar(selects.storage)"
+                      v-model="selects.storage"
+                      v-on:mouseover="passou_mouse('image5')"
+                      v-on:mouseout="retirou_mouse('image5')"
+                      class="form-control form-control-sm"
+                    >
+                      <option v-for="disco in discos">[[ disco ]] </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <a href="#result" ref="container_notebooks"></a><!--link aguarda click do evento de pesquisa, chama o bloco abaixo-->
+      <div id="container2" class="container-fluid">
+        <div class="row" id="result">
+          <div class="col-sm-3 col-notebook" v-for="notebook in notebooks">
+            <notebook :notebook="notebook"></notebook>
+          </div>
+        </div>
+      </div>
+
+      <my-footer></my-footer>
+    </div>
+
+    <template id="footer" v-focus>
+      <footer class="page-footer font-small blue" id="my-footer">
+        <div class="footer-copyright text-center py-3">
+          © 2019 Copyright
+          <a href="https://www.facebook.com/suelliton.santos.silva">
+            Suéliton Santos</a
+          >
+        </div>
+      </footer>
+    </template>
+
+    <template id="notebook">
+      <div class="col-sm-12">
+        <div class="card">
+          <img :src="[[ notebook.banner ]]" class="img-notebook" />
+          <div class="card-body">
+            <h5>[[ notebook.title ]]</h5>
+            <p class="card-text">[[ notebook.description ]].</p>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="{% static 'js/app.js' %}"></script>
+  </body>
+</html>

@@ -1,4 +1,15 @@
 {% load static %}
+a:link, a:visited {
+  color:#111;
+	}
+a:hover {
+	text-decoration: none;
+  color: #e84118; 
+	}
+a:active {
+	text-decoration: none
+	}
+
 html{
    scroll-behavior: smooth;
 }
@@ -14,6 +25,7 @@ body {
   font-family: Georgia, "Times New Roman", Times, serif;
 }
 .finder {
+  color: rgb(82, 9, 218);
   font-size: 30px;
   font-family: Georgia, "Times New Roman", Times, serif;
 }
@@ -22,31 +34,61 @@ body {
   padding-bottom: 1%;
   
 }
+
 .card-text{
-  font-size: 12px;
+  font-size: 12px; 
 }
 .card{
   padding: 5px;
-   background-color: #8c7ae6;
+   /*background-color: #8c7ae6;*/
+   background-color:  #ecf0f1;
    box-shadow: 5px 5px 5px rgba(0,0,0,0.5);
 }
 .card-body{
-  height: 50px;
   padding-right: 5px;
   padding-top: 0px;
-  padding-bottom: 0px;  
- 
+  padding-bottom: 0px; 
+  padding-left: 10px; 
+   height: 140px;
 }
+.block-select {
+  height: 31%;
+  padding-left: 15%;
+  padding-right: 10%;
+  padding-top: 15%;
+}
+
+
 .img-notebook{
-  padding: 10px;
+  max-width: 300px;
+  width: 100%;
+
+}
+.card:hover {
+  transition: transform .2s;
+  transform: scale(1.05); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+.text-price{
+  color: #e84118;
+  font-weight: bolder;
+}
+#qtd-results{
+  color: #ecf0f1;
+  margin-left: 3%;
+  padding-top: 10px;
+  padding-bottom: 5px;
+  font-size: 16px;
+}
+#container2{
+  margin-top: 50px;  
+  border-width: medium,solid, #8c7ae6;
+  background-color: #487eb0;
 }
 #my-footer{ 
   background-color:#2d3436;
   color: #ecf0f1;
 }
-a:hover {
-  text-decoration: none;
-}
+
 #pesquisaLivre {
   padding-top: 2%;
  
@@ -56,31 +98,31 @@ a:hover {
   margin-top: -0.5%;
   margin-bottom: 0.5%;
 }
-#containerTop {
+#container-top {
   background-color: #ecf0f1;
   padding-top: 1%;
   
 }
 #section1{
-     background-image: url("/static/img/macro.jpg");    
+     /*background-image: url("/static/img/macro.jpg");   */ 
 }
-#containerForm {
+#container-form {
   padding-top: 3%;  
 }
-#resultados{
+#results{
    height: 60px;
    color: #ecf0f1;
 }
 
-#containerBackground {
+#container-background {
   position: relative;
   width: 100%; /* for IE 6 */
 }
-#ul_filtros {
+#ul_filters {
   padding: 0px;
   margin-top: -5%;
 }
-#ul_filtros li {
+#ul_filters li {
   list-style: none;
   display: inline;
   background-color: blueviolet;
@@ -151,9 +193,3 @@ a:hover {
   transition: opacity 1s;
 }
 
-.blocoSelect {
-  height: 30%;
-  padding-left: 15%;
-  padding-right: 10%;
-  padding-top: 15%;
-}

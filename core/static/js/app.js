@@ -14,14 +14,7 @@ Vue.component("notebook", {
   },
   data() {
     return {};
-  },
-
-  mounted() {}
-  //methods: {
-  // focar() {
-  //   this.$refs.focus();
-  // }
-  // }
+  }
 });
 
 Vue.component("my-footer", {
@@ -37,8 +30,8 @@ new Vue({
   data() {
     return {
       notebooks: [],
-      estilo_background: "",
-      estilos: {
+      styles: {
+        background: "",
         image1: "",
         image2: "",
         image3: "",
@@ -47,56 +40,43 @@ new Vue({
         image6: ""
       },
 
-      telas: ["Nenhuma", "13.3 polegadas", "15 polegadas", "17 polegadas"],
-      memorias: ["Nenhuma", "4 GB", "8 GB", "16 GB"],
-      processadores: ["Nenhum", "i7 ", "i5 ", "i3 "],
-      marcas: ["Nenhuma", "Sony ", "Acer ", "Dell "],
-      precos: [
-        "Nenhum",
-        "500 à 2.000",
-        "2.000 à 5.000",
-        "5.000 à 10.000",
-        "7.000 à 10.000",
-        "10.000 à 50.000"
-      ],
-
-      discos: ["Nenhum", "SSD", "HDD", "Híbrido"],
-
       selects: {
-        screen: "Nenhuma",
-        ram: "Nenhuma",
-        cpu: "Nenhum",
-        brand: "Nenhuma",
-        price: "Nenhum",
-        storage: "Nenhum"
+        screen: "None",
+        ram: "None",
+        cpu: "None",
+        brand: "None",
+        price: "None",
+        storage: "None"
       },
-      pesquisa_livre: "",
-      filtros: []
+      sources: {
+        screen: ["None"],
+        ram: ["None"],
+        cpu: ["None"],
+        brand: ["None"],
+        price: ["None"],
+        storage: ["None"]
+      },
+      text_free_search: "",
+      filters: []
     };
   },
-  mounted() {},
+  mounted() {
+    this.load_data();
+  },
   methods: {
-    pesquisar(value) {
-      if (value !== "Nenhuma" || value !== "Nenhum") {
-        this.filtros.push(value);
+    search(value) {
+      if (value !== "None") {
+        this.filters.push(value);
         console.log(value);
 
         query_params = "";
         for (var key in this.selects) {
-          if (
-            this.selects[key] !== "Nenhum" &&
-            this.selects[key] !== "Nenhuma"
-          ) {
+          if (this.selects[key] !== "None") {
             console.log(this.selects[key]);
             if (key === "screen" || key === "ram") {
-              query_params =
-                query_params +
-                key +
-                "=" +
-                this.selects[key].split(" ")[0] +
-                "&";
+              query_params += key + "=" + this.selects[key].split(" ")[0] + "&";
             } else {
-              query_params = query_params + key + "=" + this.selects[key] + "&";
+              query_params += key + "=" + this.selects[key] + "&";
             }
           }
         }
@@ -104,30 +84,76 @@ new Vue({
         axios.get(urlBase + "/search?" + query_params).then(res => {
           console.log(res.data);
           this.notebooks = res.data;
-        });
-      }
-    },
-    pesquisar_livre() {
-      axios
-        .get(urlBase + "/freesearch?" + "query=" + this.pesquisa_livre)
-        .then(res => {
-          console.log(res.data);
-          this.notebooks = res.data;
           this.$refs.container_notebooks.click();
         });
+      }
+    },
+    freesearch() {
+      axios.get(urlBase + "/freesearch?" + "query=" + this.text_free_search).then(res => {
+        console.log(res.data);
+        this.notebooks = res.data;
+        this.$refs.container_notebooks.click();
+      });
       //limpa campos de select paraa nova pesquisa por parametro
       for (var key in this.selects) {
-        if (key === "price" || key === "storage" || key === "cpu") {
-          this.selects[key] = "Nenhum";
-        } else {
-          this.selects[key] = "Nenhuma";
-        }
+        this.selects[key] = "None";
       }
-      this.filtros = [];
+      this.filters = [];
     },
-    passou_mouse(image) {
-      this.estilo_background = "filter:blur(2px) brightness(70%);";
-      this.estilos[image] = "opacity: 1; filter: brightness(130%);";
+    load_data() {
+      this.get_screens();
+      this.get_rams();
+      this.get_cpus();
+      this.get_brands();
+      this.get_prices();
+      this.get_storages();
+    },
+
+    get_screens() {
+      axios.get(urlBase + "/" + "screen").then(res => {
+        for (var key in res.data) {
+          this.sources["screen"].push(res.data[key].inches);
+        }
+      });
+    },
+    get_rams() {
+      axios.get(urlBase + "/" + "ram").then(res => {
+        for (var key in res.data) {
+          this.sources["ram"].push(res.data[key].length);
+        }
+      });
+    },
+    get_cpus() {
+      axios.get(urlBase + "/" + "cpu").then(res => {
+        for (var key in res.data) {
+          this.sources["cpu"].push(res.data[key].name);
+        }
+      });
+    },
+    get_brands() {
+      axios.get(urlBase + "/" + "brand").then(res => {
+        for (var key in res.data) {
+          this.sources["brand"].push(res.data[key].name);
+        }
+      });
+    },
+    get_prices() {
+      axios.get(urlBase + "/" + "price").then(res => {
+        for (var key in res.data) {
+          this.sources["price"].push(res.data[key].interval);
+        }
+      });
+    },
+    get_storages() {
+      axios.get(urlBase + "/" + "storage").then(res => {
+        for (var key in res.data) {
+          this.sources["storage"].push(res.data[key].type);
+        }
+      });
+    },
+    mouse_in(image) {
+      this.styles.background = "filter:blur(2px) brightness(70%);";
+      this.styles[image] = "opacity: 1; filter: brightness(130%);";
       //kasdjfdasdkj
       /*      
             document.querySelector(".image-background").style.filter = "blur(8px)";
@@ -135,9 +161,9 @@ new Vue({
             document.querySelector(image).style.opacity = 1.0
             document.querySelector(image).style.filter = "brightness(120%)";*/
     },
-    retirou_mouse(image) {
-      this.estilo_background = "filter:none;";
-      this.estilos[image] = "opacity: 0;  ";
+    mouse_out(image) {
+      this.styles.background = "filter:none;";
+      this.styles[image] = "opacity: 0;  ";
       /*document.querySelector(".image-background").style.filter="none"
             document.querySelector(image).style.opacity = 0*/
     }

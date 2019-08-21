@@ -53,56 +53,9 @@
               <!--Linha-->
               <!--primeira coluna-->
               <div class="col-sm-3">
-                <div class="block-select ">
-                  <div class="input-group input-group-sm" v-on:mouseover="mouse_in('image3')" v-on:mouseout="mouse_out('image3')">
-                    <div class="input-group-prepend">
-                      <label data-toggle="tooltip" data-placement="top" title="Monitor onde são exibidas as tarefas que estão sendo executadas." class="input-group-text "
-                        >Screen</label
-                      >
-                    </div>
-                    <select @change="search(selects.screen)" v-model="selects.screen" class="form-control form-control-sm custom-select">
-                      <option v-for="screen in sources.screen">[[ screen ]] </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="block-select">
-                  <div class="input-group input-group-sm">
-                    <div class="input-group-prepend">
-                      <label
-                        data-toggle="tooltip"
-                        data-placement="top"
-                        title="Responsável pelo armazenamento temporário de informações no notebook, quanto mais melhor."
-                        class="input-group-text "
-                        >RAM</label
-                      >
-                    </div>
-                    <select
-                      @change="search(selects.ram)"
-                      v-model="selects.ram"
-                      v-on:mouseover="mouse_in('image2')"
-                      v-on:mouseout="mouse_out('image2')"
-                      class="form-control form-control-sm"
-                    >
-                      <option v-for="ram in sources.ram">[[ ram ]] </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="block-select">
-                  <div class="input-group input-group-sm">
-                    <div class="input-group-prepend">
-                      <label data-toggle="tooltip" data-placement="top" title="Responsável pelo processamento das tarefas do notebook." class="input-group-text ">CPU</label>
-                    </div>
-                    <select
-                      @change="search(selects.cpu)"
-                      v-model="selects.cpu"
-                      v-on:mouseover="mouse_in('image1')"
-                      v-on:mouseout="mouse_out('image1')"
-                      class="form-control form-control-sm"
-                    >
-                      <option v-for="cpu in sources.cpu">[[ cpu ]] </option>
-                    </select>
-                  </div>
-                </div>
+                <selectblock :search="search" @change-back="change_background" :block="blocks.screen"></selectblock>
+                <selectblock :search="search" @change-back="change_background" :block="blocks.ram"></selectblock>
+                <selectblock :search="search" @change-back="change_background" :block="blocks.cpu"></selectblock>
               </div>
               <!--segunda coluna-->
               <div class="col-sm-6">
@@ -112,73 +65,21 @@
                   </ul>
                 </div>
                 <div class="container" id="container-background">
-                  <img :style="styles.background" id="imageCenter" src="{% static 'img/notebook.png' %}" alt="" />
-                  <img :style="styles.image1" id="image1" src="{% static  'img/processador.png' %}" alt="" />
-                  <img :style="styles.image2" id="image2" src="{% static  'img/memoria.png' %}" alt="" />
-                  <img :style="styles.image3" id="image3" src="{% static  'img/tela.png' %}" alt="" />
-                  <img :style="styles.image4" id="image4" src="{% static  'img/marca.png' %}" alt="" />
-                  <img :style="styles.image5" id="image5" src="{% static  'img/ssd.png' %}" alt="" />
-                  <img :style="styles.image6" id="image6" src="{% static  'img/preco.png' %}" alt="" />
+                  <img :style="background" id="imageCenter" src="{% static 'img/notebook.png' %}" alt="" />
+                  <img ref="screen" id="img-screen" src="{% static  'img/screen.png' %}" alt="" />
+                  <img ref="ram" id="img-ram" src="{% static  'img/ram.png' %}" alt="" />
+                  <img ref="cpu" id="img-cpu" src="{% static  'img/cpu.png' %}" alt="" />
+                  <img ref="brand" id="img-brand" src="{% static  'img/brand.png' %}" alt="" />
+                  <img ref="price" id="img-price" src="{% static  'img/price.png' %}" alt="" />
+                  <img ref="storage" id="img-storage" src="{% static  'img/ssd.png' %}" alt="" />
                 </div>
                 <!---->
               </div>
-
               <!--terceira coluna-->
               <div class="col-sm-3">
-                <div class="block-select">
-                  <div class="input-group input-group-sm">
-                    <div class="input-group-prepend">
-                      <label data-toggle="tooltip" data-placement="top" title="Fabricante do notebook." class="input-group-text ">Brand</label>
-                    </div>
-                    <select
-                      @change="search(selects.brand)"
-                      v-model="selects.brand"
-                      v-on:mouseover="mouse_in('image4')"
-                      v-on:mouseout="mouse_out('image4')"
-                      class="form-control form-control-sm"
-                    >
-                      <option v-for="brand in sources.brand">[[ brand ]] </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="block-select">
-                  <div class="input-group input-group-sm">
-                    <div class="input-group-prepend">
-                      <label data-toggle="tooltip" data-placement="top" title="Faixa de preços sugeridas pelos fabricantes e e-commerces." class="input-group-text ">Price</label>
-                    </div>
-                    <select
-                      @change="search(selects.price)"
-                      v-model="selects.price"
-                      v-on:mouseover="mouse_in('image6')"
-                      v-on:mouseout="mouse_out('image6')"
-                      class="form-control form-control-sm"
-                    >
-                      <option v-for="price in sources.price">[[ price ]] </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="block-select">
-                  <div class="input-group input-group-sm">
-                    <div class="input-group-prepend">
-                      <label
-                        data-toggle="tooltip"
-                        data-placement="top"
-                        title="Responsável pelo armazenamento definitivo do sistema operacional, músicas, vídeos e arquivos em geral"
-                        class="input-group-text "
-                        >Storage</label
-                      >
-                    </div>
-                    <select
-                      @change="search(selects.storage)"
-                      v-model="selects.storage"
-                      v-on:mouseover="mouse_in('image5')"
-                      v-on:mouseout="mouse_out('image5')"
-                      class="form-control form-control-sm"
-                    >
-                      <option v-for="storage in sources.storage">[[ storage ]] </option>
-                    </select>
-                  </div>
-                </div>
+                <selectblock :search="search" @change-back="change_background" :block="blocks.brand"></selectblock>
+                <selectblock :search="search" @change-back="change_background" :block="blocks.price"></selectblock>
+                <selectblock :search="search" @change-back="change_background" :block="blocks.storage"></selectblock>
               </div>
             </div>
           </form>
@@ -202,8 +103,26 @@
     </div>
 
     <!--templates-->
+    <template id="select-block">
+      <div class="block-select">
+        <div class="input-group input-group-sm ">
+          <div class="input-group-prepend">
+            <label data-toggle="tooltip" data-placement="top" title="message" class="input-group-text ">[[ block.label ]]</label>
+          </div>
+          <select
+            class="form-control form-control-sm"
+            @change="search(block.model)"
+            v-model="block.model"
+            v-on:mouseover="mouse_in(block.key,true)"
+            v-on:mouseout="mouse_out(block.key,false)"
+          >
+            <option v-for="op in block.values"> [[ op ]]</option>
+          </select>
+        </div>
+      </div>
+    </template>
 
-    <template id="footer" v-focus>
+    <template id="footer">
       <footer class="page-footer font-small blue" id="my-footer">
         <div class="footer-copyright text-center py-3">
           © 2019 Copyright

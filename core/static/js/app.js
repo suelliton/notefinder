@@ -6,6 +6,27 @@ if (urlBase === "127.0.0.1:8000") {
   urlBase = "https://" + urlBase;
 }
 
+Vue.component("selectblock", {
+  delimiters: ["[[", "]]"],
+  template: "#select-block",
+  props: {
+    block: Object,
+    back: String,
+    search: Function
+  },
+  data() {
+    return {};
+  },
+  methods: {
+    mouse_in(key, state) {
+      this.$emit("change-back", { key: key, state: state });
+    },
+    mouse_out(key, state) {
+      this.$emit("change-back", { key: key, state: state });
+    }
+  }
+});
+
 Vue.component("notebook", {
   delimiters: ["[[", "]]"],
   template: "#notebook",
@@ -29,33 +50,47 @@ new Vue({
   el: "#app",
   data() {
     return {
+      background: "",
+      blocks: {
+        screen: {
+          label: "Screen",
+          key: "screen",
+          model: "None",
+          values: ["None"]
+        },
+        ram: {
+          label: "Ram",
+          key: "ram",
+          model: "None",
+          values: ["None"]
+        },
+        cpu: {
+          label: "Cpu",
+          key: "cpu",
+          model: "None",
+          values: ["None"]
+        },
+        brand: {
+          label: "Brand",
+          key: "brand",
+          model: "None",
+          values: ["None"]
+        },
+        price: {
+          label: "Price",
+          key: "price",
+          model: "None",
+          values: ["None"]
+        },
+        storage: {
+          label: "Storage",
+          key: "storage",
+          model: "None",
+          values: ["None"]
+        }
+      },
       notebooks: [],
-      styles: {
-        background: "",
-        image1: "",
-        image2: "",
-        image3: "",
-        image4: "",
-        image5: "",
-        image6: ""
-      },
 
-      selects: {
-        screen: "None",
-        ram: "None",
-        cpu: "None",
-        brand: "None",
-        price: "None",
-        storage: "None"
-      },
-      sources: {
-        screen: ["None"],
-        ram: ["None"],
-        cpu: ["None"],
-        brand: ["None"],
-        price: ["None"],
-        storage: ["None"]
-      },
       text_free_search: "",
       filters: []
     };
@@ -70,17 +105,17 @@ new Vue({
         console.log(value);
 
         query_params = "";
-        for (var key in this.selects) {
-          if (this.selects[key] !== "None") {
-            console.log(this.selects[key]);
+        for (var key in this.blocks) {
+          if (this.blocks[key].model !== "None") {
+            console.log(this.blocks[key].model);
             if (key === "screen" || key === "ram") {
-              query_params += key + "=" + this.selects[key].split(" ")[0] + "&";
+              query_params += key + "=" + this.blocks[key].model.split(" ")[0] + "&";
             } else {
-              query_params += key + "=" + this.selects[key] + "&";
+              query_params += key + "=" + this.blocks[key].model + "&";
             }
           }
         }
-        console.log("query_params:", query_params);
+        console.log("query_params:" + query_params);
         axios.get(urlBase + "/search?" + query_params).then(res => {
           console.log(res.data);
           this.notebooks = res.data;
@@ -112,60 +147,53 @@ new Vue({
     get_screens() {
       axios.get(urlBase + "/" + "screen").then(res => {
         for (var key in res.data) {
-          this.sources["screen"].push(res.data[key].inches);
+          this.blocks.screen.values.push(res.data[key].inches);
         }
       });
     },
     get_rams() {
       axios.get(urlBase + "/" + "ram").then(res => {
         for (var key in res.data) {
-          this.sources["ram"].push(res.data[key].length);
+          this.blocks.ram.values.push(res.data[key].length);
         }
       });
     },
     get_cpus() {
       axios.get(urlBase + "/" + "cpu").then(res => {
         for (var key in res.data) {
-          this.sources["cpu"].push(res.data[key].name);
+          this.blocks.cpu.values.push(res.data[key].name);
         }
       });
     },
     get_brands() {
       axios.get(urlBase + "/" + "brand").then(res => {
         for (var key in res.data) {
-          this.sources["brand"].push(res.data[key].name);
+          this.blocks.brand.values.push(res.data[key].name);
         }
       });
     },
     get_prices() {
       axios.get(urlBase + "/" + "price").then(res => {
         for (var key in res.data) {
-          this.sources["price"].push(res.data[key].interval);
+          this.blocks.price.values.push(res.data[key].interval);
         }
       });
     },
     get_storages() {
       axios.get(urlBase + "/" + "storage").then(res => {
         for (var key in res.data) {
-          this.sources["storage"].push(res.data[key].type);
+          this.blocks.storage.values.push(res.data[key].type);
         }
       });
     },
-    mouse_in(image) {
-      this.styles.background = "filter:blur(2px) brightness(70%);";
-      this.styles[image] = "opacity: 1; filter: brightness(130%);";
-      //kasdjfdasdkj
-      /*      
-            document.querySelector(".image-background").style.filter = "blur(8px)";
-            document.querySelector(".image-background").style.filter = "brightness(80%)";
-            document.querySelector(image).style.opacity = 1.0
-            document.querySelector(image).style.filter = "brightness(120%)";*/
-    },
-    mouse_out(image) {
-      this.styles.background = "filter:none;";
-      this.styles[image] = "opacity: 0;  ";
-      /*document.querySelector(".image-background").style.filter="none"
-            document.querySelector(image).style.opacity = 0*/
+    change_background(event) {
+      if (event.state) {
+        this.background = "filter:blur(2px) brightness(70%);"; //aqui poderia usar ref tbm
+        this.$refs[event.key].style = "opacity: 1; filter: brightness(130%);";
+      } else {
+        this.background = "filter:none;"; //aqui poderia usar ref tbm
+        this.$refs[event.key].style = "opacity: 0;  ";
+      }
     }
   }
 });

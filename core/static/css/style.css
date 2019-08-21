@@ -138,7 +138,7 @@ body {
   /*filter: blur(8px);*/
   transition: filter 1s;
 }
-#image1 {
+#img-cpu {
   /* processador*/
   position: absolute;
   top: 75%;
@@ -147,7 +147,7 @@ body {
   opacity: 0; /* transparencia*/
   transition: opacity 1s;
 }
-#image2 {
+#img-ram {
   /* memoria*/
   position: absolute;
   top: 55%;
@@ -156,7 +156,7 @@ body {
   opacity: 0; /* transparencia*/
   transition: opacity 1s;
 }
-#image3 {
+#img-screen {
   /* tela*/
   position: absolute;
   top: 0%;
@@ -165,7 +165,7 @@ body {
   opacity: 0; /* transparencia*/
   transition: opacity 1s;
 }
-#image4 {
+#img-brand {
   /* marca*/
   position: absolute;
   top: 15%;
@@ -174,7 +174,7 @@ body {
   opacity: 0; /* transparencia*/
   transition: opacity 1s;
 }
-#image5 {
+#img-storage {
   /* disco*/
   position: absolute;
   top: 75%;
@@ -183,7 +183,7 @@ body {
   opacity: 0; /* transparencia*/
   transition: opacity 1s;
 }
-#image6 {
+#img-price {
   /* preco*/
   position: absolute;
   top: 50%;
